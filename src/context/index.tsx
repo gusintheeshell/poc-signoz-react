@@ -12,7 +12,7 @@ const AppContext = createContext<
 
 const AppProvider: FC<AppProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer(appReducer, {
-    cardType: "Personagens",
+    cardType: null,
   });
 
   return (
