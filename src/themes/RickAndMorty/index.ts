@@ -1,5 +1,7 @@
 import { extendTheme } from "@chakra-ui/react";
 
+import bg from "@/assets/images/bg.jpg";
+
 const rickAndMorty = extendTheme({
   colors: {
     brand: {
@@ -50,6 +52,16 @@ const rickAndMorty = extendTheme({
       800: "#424242",
       900: "#212121",
     },
+  },
+  styles: {
+    global: () => ({
+      body: {
+        bgImage: bg,
+        bgSize: "auto",
+        bgRepeat: "no-repeat",
+        bgPosition: "center",
+      },
+    }),
   },
 });
 
