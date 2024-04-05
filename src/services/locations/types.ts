@@ -10,7 +10,7 @@ export interface Location {
 
 export interface LocationsResponse {
   info: Info;
-  results: Result[];
+  results: Result[] | undefined;
 }
 
 export interface Info {
