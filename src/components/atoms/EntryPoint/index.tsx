@@ -1,38 +1,41 @@
-import { useState } from "react";
-import { useDisclosure } from "@chakra-ui/react";
+import { Flex, useDisclosure } from "@chakra-ui/react";
 
 import Container from "@/components/atoms/Container";
 import CustomCard from "@/components/atoms/CustomCard";
-import CustomModal, { CardTypes } from "@/components/atoms/CustomModal";
+import ModalContents from "@/components/molecules/ModalContents";
 
 import { CARDS_CONTENT } from "@/constants";
+import { useApp } from "@/context";
+import { CardTypes } from "@/types";
 
 const EntryPoint = () => {
+  const { dispatch } = useApp();
   const { isOpen, onClose, onOpen } = useDisclosure();
-  const [cardType, setCardType] = useState<CardTypes>("Personagens");
-
-  const handleTypeCard = (typeCardValue: CardTypes) => {
-    setCardType(typeCardValue);
-  };
 
   return (
     <>
       <Container>
-        <>
-          {CARDS_CONTENT.map(({ image, title }) => (
-            <CustomCard
-              image={image}
-              title={title}
-              key={image}
-              onClick={() => {
-                handleTypeCard(title as CardTypes);
-                onOpen();
-              }}
-            />
-          ))}
-        </>
+        <Flex flexDirection="column">
+          <Flex flexDirection="row" gap={24}>
+            {CARDS_CONTENT.map(({ image, title }) => (
+              <CustomCard
+                image={image}
+                title={title}
+                key={image}
+                onClick={() => {
+                  dispatch({
+                    type: "SET_CARD_TYPE",
+                    payload: title as CardTypes,
+                  });
+                  onOpen();
+                }}
+              />
+            ))}
+          </Flex>
+        </Flex>
       </Container>
-      <CustomModal isOpen={isOpen} onClose={onClose} cardType={cardType} />
+
+      <ModalContents isOpen={isOpen} onClose={onClose} onOpen={onOpen} />
     </>
   );
 };
