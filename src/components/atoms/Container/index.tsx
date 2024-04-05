@@ -1,7 +1,6 @@
 import { FC } from "react";
 
 import { Box } from "@chakra-ui/react";
-
 interface ContainerProps {
   children: JSX.Element | JSX.Element[];
 }
@@ -9,15 +8,19 @@ interface ContainerProps {
 const Container: FC<ContainerProps> = ({ children }) => {
   return (
     <Box
-      bg="brand.600"
-      m={24}
-      p={8}
+      border={0}
+      bgColor="transparent"
       borderRadius="xl"
       boxShadow="md"
       width="auto"
       minW="300px"
       display="flex"
       justifyContent="space-around"
+      position="fixed"
+      bottom={0}
+      left={0}
+      right={0}
+      p={16}
     >
       <>{children}</>
     </Box>
