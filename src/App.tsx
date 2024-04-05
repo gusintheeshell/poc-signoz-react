@@ -1,4 +1,4 @@
-import EntryPoint from "./components/EntryPoint";
+import EntryPoint from "@/components/atoms/EntryPoint";
 
 function App() {
   return <EntryPoint />;
