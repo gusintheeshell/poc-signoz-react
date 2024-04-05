@@ -5,7 +5,7 @@ import { Card, CardBody, Heading, Image, Stack } from "@chakra-ui/react";
 interface CustomCardProps {
   image: string;
   title: string;
-  onClick?: () => void;
+  onClick?: (param?: any) => void;
 }
 
 const CustomCard: FC<CustomCardProps> = ({ image, title, onClick }) => {
