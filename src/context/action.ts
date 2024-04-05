@@ -1,7 +1,7 @@
 import { CardTypes } from "@/types";
 
 export type AppState = {
-  cardType: CardTypes;
+  cardType: CardTypes | null;
 };
 
 export const SET_CARD_TYPE = "SET_CARD_TYPE";
