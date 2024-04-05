@@ -10,7 +10,7 @@ export interface Episode {
 
 export interface EpisodesResponse {
   info: Info;
-  results: Result[];
+  results: Result[] | undefined;
 }
 
 export interface Info {
