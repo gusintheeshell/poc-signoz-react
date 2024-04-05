@@ -3,7 +3,7 @@ import { FC } from "react";
 import { Box } from "@chakra-ui/react";
 
 interface ContainerProps {
-  children: JSX.Element;
+  children: JSX.Element | JSX.Element[];
 }
 
 const Container: FC<ContainerProps> = ({ children }) => {
@@ -19,7 +19,7 @@ const Container: FC<ContainerProps> = ({ children }) => {
       display="flex"
       justifyContent="space-around"
     >
-      {children}
+      <>{children}</>
     </Box>
   );
 };
