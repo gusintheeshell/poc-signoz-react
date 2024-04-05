@@ -1,13 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
+import api from "@/services/api";
 
 import { CharacterResponse } from "./types";
-import { fetchCharacters } from "./requests";
 
-const QUERY_KEY = ["Character"];
-
-export const useGetCharacter = () => {
-  return useQuery<CharacterResponse, Error>({
-    queryKey: QUERY_KEY,
-    queryFn: fetchCharacters,
-  });
+export const fetchCharacters = async (): Promise<CharacterResponse> => {
+  const { data } = await api.get("/character");
+  return data;
 };
