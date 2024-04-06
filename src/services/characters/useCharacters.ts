@@ -1,7 +1,11 @@
-import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import {
+  useInfiniteQuery,
+  useQuery,
+  UseQueryOptions,
+} from "@tanstack/react-query";
 
 import { CharacterResponse } from "./types";
-import { fetchCharacters } from ".";
+import { fetchCharacters, fetchCharactersByPage } from ".";
 
 export const QUERY_KEY_CHARACTER = ["Character"];
 
@@ -12,5 +16,16 @@ export const useGetCharacter = (
     queryKey: QUERY_KEY_CHARACTER,
     queryFn: () => fetchCharacters(),
     ...options,
+  });
+};
+
+export const useGetCharacterByPage = (pageNumber: number) => {
+  return useInfiniteQuery<CharacterResponse, Error>({
+    queryKey: ["Character", pageNumber],
+    queryFn: () => fetchCharactersByPage(pageNumber),
+    initialPageParam: 0,
+    getNextPageParam: ({ info: { next } }) => {
+      return next;
+    },
   });
 };
