@@ -14,7 +14,7 @@ const resource = new Resource({ "service.name": serviceName });
 const provider = new WebTracerProvider({ resource });
 
 const collector = new OTLPTraceExporter({
-  url: "http://localhost:3301/v1/traces",
+  url: "http://localhost:4318/v1/traces",
   // headers: {
   //   "signoz-access-token": "SigNoz-Cloud-Ingestion-Token-HERE"
   // }
