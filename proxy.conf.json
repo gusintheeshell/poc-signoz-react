@@ -1,0 +1,6 @@
+{
+    "/signoz-api/**": {
+      "target": "http://localhost:4318",
+      "secure": false
+    }
+  }
