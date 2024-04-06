@@ -1,7 +1,7 @@
-import api from "@/services/api";
-import { LocationsResponse } from "../locations/types";
+import { apiFetch } from "@/services/apiFetch";
+import { LocationsResponse } from "@/services/locations/types";
 
 export const fetchLocations = async (): Promise<LocationsResponse> => {
-  const { data } = await api.get("/location");
+  const { data } = await apiFetch<LocationsResponse>("/location");
   return data;
 };
