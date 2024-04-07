@@ -23,7 +23,7 @@ export const useGetCharacterByPage = (pageNumber: number) => {
   return useInfiniteQuery<CharacterResponse, Error>({
     queryKey: ["Character", pageNumber],
     queryFn: () => fetchCharactersByPage(pageNumber),
-    initialPageParam: 0,
+    initialPageParam: 1,
     getNextPageParam: ({ info: { next } }) => {
       return next;
     },
