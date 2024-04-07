@@ -15,8 +15,16 @@ interface ModalContentsProps {
 
 const ModalContents: FC<ModalContentsProps> = ({ isOpen, onClose }) => {
   const {
-    state: { cardType },
+    state: { cardType, pageNumber },
+    dispatch,
   } = useApp();
+
+  const loadMore = () => {
+    dispatch({
+      type: "SET_PAGE_NUMBER",
+      payload: pageNumber + 1,
+    });
+  };
 
   const renderContents = useCallback(() => {
     switch (cardType) {
@@ -34,7 +42,7 @@ const ModalContents: FC<ModalContentsProps> = ({ isOpen, onClose }) => {
       title={cardType}
       isOpen={isOpen}
       onClose={onClose}
-      onLoadMore={() => {}}
+      onLoadMore={loadMore}
       children={<>{renderContents()}</>}
       size="xxl"
     />
