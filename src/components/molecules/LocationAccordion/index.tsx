@@ -24,8 +24,8 @@ const LocationAccordion: FC = () => {
 
   useMemo(() => {
     if (data?.pages) {
-      const newCharacters = data.pages.flatMap((page) => page.results || []);
-      const updatedCharacters = [...locations, ...newCharacters].reduce<
+      const newLocations = data.pages.flatMap((page) => page.results || []);
+      const updatedLocations = [...locations, ...newLocations].reduce<
         Location[]
       >((acc, current) => {
         if (acc.findIndex(({ id }) => id === current.id) === -1) {
@@ -33,7 +33,7 @@ const LocationAccordion: FC = () => {
         }
         return acc;
       }, []);
-      setLocations(updatedCharacters);
+      setLocations(updatedLocations);
     }
   }, [data]);
 
