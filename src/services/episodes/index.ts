@@ -10,6 +10,6 @@ export const fetchEpisodes = async (): Promise<EpisodesResponse> => {
 export const fetchEpisodesByPage = async (
   page: number
 ): Promise<EpisodesResponse> => {
-  const response = await apiFetch<EpisodesResponse>(`/location/?page=${page}`);
-  return response;
+  const { data } = await apiFetch<EpisodesResponse>(`/location/?page=${page}`);
+  return data;
 };
