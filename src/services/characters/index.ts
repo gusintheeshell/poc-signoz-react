@@ -10,8 +10,8 @@ export const fetchCharacters = async (): Promise<CharacterResponse> => {
 export const fetchCharactersByPage = async (
   page: number
 ): Promise<CharacterResponse> => {
-  const response = await apiFetch<CharacterResponse>(
+  const { data } = await apiFetch<CharacterResponse>(
     `/character/?page=${page}`
   );
-  return response;
+  return data;
 };
