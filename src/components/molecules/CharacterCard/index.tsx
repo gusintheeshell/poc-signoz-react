@@ -1,30 +1,40 @@
-import { FC } from "react";
-import { SimpleGrid } from "@chakra-ui/react";
-
-import { useApp } from "@/context";
-import {
-  QUERY_KEY_CHARACTER,
-  useGetCharacter,
-} from "@/services/characters/useCharacters";
+import { FC, useMemo, useState } from "react";
+import { SimpleGrid, Spinner } from "@chakra-ui/react";
 
 import CustomCard from "@/components/atoms/CustomCard";
+import { useApp } from "@/context";
+import { useGetCharacterByPage } from "@/services/characters/useCharacters";
+import { Character } from "@/services/characters/types";
 
 const CharacterCards: FC = () => {
   const {
-    state: { cardType },
+    state: { pageNumber },
   } = useApp();
 
-  const { data: characters } = useGetCharacter({
-    queryKey: QUERY_KEY_CHARACTER,
-    enabled: cardType === "Personagens",
-  });
+  const { data, isRefetching } = useGetCharacterByPage(pageNumber);
+  const [characters, setCharacters] = useState<Array<Character>>([]);
 
+  useMemo(() => {
+    if (data?.pages) {
+      const newCharacters = data.pages.flatMap((page) => page.results || []);
+      const updatedCharacters = [...characters, ...newCharacters].reduce<
+        Character[]
+      >((acc, current) => {
+        if (acc.findIndex(({ id }) => id === current.id) === -1) {
+          acc.push(current);
+        }
+        return acc;
+      }, []);
+      setCharacters(updatedCharacters);
+    }
+  }, [data]);
+
+  if (isRefetching) return <Spinner />;
   return (
     <SimpleGrid columns={4} spacing={4}>
-      {characters &&
-        characters?.results!.map(({ id, image, name }) => (
-          <CustomCard key={id} image={image} title={name} />
-        ))}
+      {characters.map(({ id, image, name }) => (
+        <CustomCard key={id} image={image} title={name} />
+      ))}
     </SimpleGrid>
   );
 };
