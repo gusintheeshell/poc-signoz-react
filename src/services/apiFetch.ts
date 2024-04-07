@@ -1,10 +1,10 @@
 import { traceSpan } from "@/helpers/tracing";
-import api, { Options, Response } from "@/services/api";
+import api, { Options } from "@/services/api";
 
 export const apiFetch = async <T extends {}>(
   url: string,
   options?: Options
-): Promise<Response<T>> => {
+): Promise<T> => {
   if (options && options.method && options.method !== "GET") {
     options.headers = Object.assign(options.headers || {}, {
       "Content-Type": "application/json",
