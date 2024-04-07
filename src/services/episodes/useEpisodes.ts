@@ -1,6 +1,10 @@
-import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import {
+  useInfiniteQuery,
+  useQuery,
+  UseQueryOptions,
+} from "@tanstack/react-query";
 
-import { fetchEpisodes } from "./";
+import { fetchEpisodes, fetchEpisodesByPage } from "./";
 import { EpisodesResponse } from "./types";
 
 export const QUERY_KEY_EPISODE = ["Episode"];
@@ -12,5 +16,16 @@ export const useGetEpisodes = (
     queryKey: QUERY_KEY_EPISODE,
     queryFn: fetchEpisodes,
     ...options,
+  });
+};
+
+export const useGetLocationByPage = (pageNumber: number) => {
+  return useInfiniteQuery<EpisodesResponse, Error>({
+    queryKey: ["Character", pageNumber],
+    queryFn: () => fetchEpisodesByPage(pageNumber),
+    initialPageParam: 1,
+    getNextPageParam: ({ info: { next } }) => {
+      return next;
+    },
   });
 };
