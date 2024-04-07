@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useMemo, useState } from "react";
 import {
   Accordion,
   AccordionItem,
@@ -9,28 +9,39 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 
-import {
-  QUERY_KEY_EPISODE,
-  useGetEpisodes,
-} from "@/services/episodes/useEpisodes";
-
 import { useApp } from "@/context";
+import { useGetEpisodesByPage } from "@/services/episodes/useEpisodes";
+import { Episode } from "@/services/episodes/types";
 
 const EpisodeAccordion: FC = () => {
   const {
-    state: { cardType },
+    state: { pageNumber },
   } = useApp();
 
-  const { data: episodes, isLoading } = useGetEpisodes({
-    queryKey: QUERY_KEY_EPISODE,
-    enabled: cardType === "Episódios",
-  });
+  const { data, isRefetching } = useGetEpisodesByPage(pageNumber);
+  const [episodes, setEpisodes] = useState<Array<Episode>>([]);
 
-  if (isLoading) <Spinner />;
+  useMemo(() => {
+    if (data?.pages) {
+      const newEpisodes = data.pages.flatMap((page) => page.results || []);
+      const updatedEpisodes = [...episodes, ...newEpisodes].reduce<Episode[]>(
+        (acc, current) => {
+          if (acc.findIndex(({ id }) => id === current.id) === -1) {
+            acc.push(current);
+          }
+          return acc;
+        },
+        []
+      );
+      setEpisodes(updatedEpisodes);
+    }
+  }, [data]);
+
+  if (isRefetching) <Spinner />;
   return (
     <Accordion allowToggle>
       {episodes &&
-        episodes?.results!.map(({ id, name }) => (
+        episodes?.map(({ id, name }) => (
           <AccordionItem key={id}>
             <h2>
               <AccordionButton>
