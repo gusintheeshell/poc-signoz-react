@@ -19,7 +19,7 @@ export const useGetEpisodes = (
   });
 };
 
-export const useGetLocationByPage = (pageNumber: number) => {
+export const useGetEpisodesByPage = (pageNumber: number) => {
   return useInfiniteQuery<EpisodesResponse, Error>({
     queryKey: ["Character", pageNumber],
     queryFn: () => fetchEpisodesByPage(pageNumber),
