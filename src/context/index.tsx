@@ -13,6 +13,7 @@ const AppContext = createContext<
 const AppProvider: FC<AppProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer(appReducer, {
     cardType: null,
+    pageNumber: 1,
   });
 
   return (
