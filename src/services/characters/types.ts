@@ -20,7 +20,7 @@ export interface Location {
 
 export interface CharacterResponse {
   info: Info;
-  results: Result[] | undefined;
+  results: Result[];
 }
 
 export interface Info {
