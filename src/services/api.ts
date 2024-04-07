@@ -7,8 +7,6 @@ const api: AxiosInstance = axios.create({
 });
 
 export type Options = AxiosRequestConfig;
-export type Response<T> = AxiosResponse & {
-  data: T;
-};
+export type Response<T> = AxiosResponse<T>;
 
 export default api;
