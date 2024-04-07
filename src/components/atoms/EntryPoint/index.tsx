@@ -12,6 +12,11 @@ const EntryPoint = () => {
   const { dispatch } = useApp();
   const { isOpen, onClose, onOpen } = useDisclosure();
 
+  const handleOnClose = () => {
+    dispatch({ type: "SET_PAGE_RESET" });
+    onClose();
+  };
+
   return (
     <>
       <Container>
@@ -35,7 +40,7 @@ const EntryPoint = () => {
         </Flex>
       </Container>
 
-      <ModalContents isOpen={isOpen} onClose={onClose} onOpen={onOpen} />
+      <ModalContents isOpen={isOpen} onClose={handleOnClose} onOpen={onOpen} />
     </>
   );
 };
