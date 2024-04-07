@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useMemo, useState } from "react";
 import {
   Accordion,
   AccordionItem,
@@ -9,28 +9,39 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 
-import {
-  QUERY_KEY_LOCATIONS,
-  useGetLocations,
-} from "@/services/locations/useLocations";
+import { useGetLocationByPage } from "@/services/locations/useLocations";
+import { Location } from "@/services/locations/types";
 
 import { useApp } from "@/context";
 
 const LocationAccordion: FC = () => {
   const {
-    state: { cardType },
+    state: { pageNumber },
   } = useApp();
 
-  const { data: locations, isLoading } = useGetLocations({
-    queryKey: QUERY_KEY_LOCATIONS,
-    enabled: cardType === "Locais",
-  });
+  const { data, isRefetching } = useGetLocationByPage(pageNumber);
+  const [locations, setLocations] = useState<Array<Location>>([]);
 
-  isLoading && <Spinner />;
+  useMemo(() => {
+    if (data?.pages) {
+      const newCharacters = data.pages.flatMap((page) => page.results || []);
+      const updatedCharacters = [...locations, ...newCharacters].reduce<
+        Location[]
+      >((acc, current) => {
+        if (acc.findIndex(({ id }) => id === current.id) === -1) {
+          acc.push(current);
+        }
+        return acc;
+      }, []);
+      setLocations(updatedCharacters);
+    }
+  }, [data]);
+
+  isRefetching && <Spinner />;
   return (
     <Accordion allowToggle>
       {locations &&
-        locations!.results!.map(({ id, name }) => (
+        locations.map(({ id, name }) => (
           <AccordionItem key={id}>
             <h2>
               <AccordionButton>
