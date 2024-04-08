@@ -13,11 +13,10 @@ export const apiFetch = async <T extends {}>(
   url: string,
   options?: Options
 ): Promise<Response<T>> => {
-  if (options?.method !== "GET") {
-    options!.headers = {
-      ...options?.headers,
+  if (options && options.method && options.method !== "GET") {
+    options.headers = Object.assign(options.headers || {}, {
       "Content-Type": "application/json",
-    };
+    });
   }
 
   return traceSpan(url, async () => {
